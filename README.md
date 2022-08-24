@@ -24,7 +24,7 @@ To run this example project, you'll need:
 5. An up-to-date version of [Google Chrome](https://www.google.com/chrome/downloads/).
 6. A corresponding version of [ChromeDriver](https://chromedriver.chromium.org/downloads).
 
-The main test case is [`AcmeBankTests.java`](src/main/java/com/applitools/example/AcmeBankTests.java).
+The main test case is [`AcmeBankTests.java`](src/test/java/com/applitools/example/AcmeBankTests.java).
 
 To execute tests, set the `APPLITOOLS_API_KEY` environment variable
 to your [account's API key](https://applitools.com/tutorials/getting-started/setting-up-your-environment.html),
