@@ -25,6 +25,6 @@ jobs:
         run: mvn install
 
       - name: Test code
-        run: mvn exec:java -Dexec.mainClass="com.applitools.quickstarts.AcmeBankTests" -Dexec.classpathScope=test
+        run: mvn exec:java -Dexec.mainClass="com.applitools.example.AcmeBankTests" -Dexec.classpathScope=test
         env:
           APPLITOOLS_API_KEY: ${{ secrets.APPLITOOLS_API_KEY }}
