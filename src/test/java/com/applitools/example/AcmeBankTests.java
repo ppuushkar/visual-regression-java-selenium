@@ -14,7 +14,6 @@ import com.applitools.eyes.visualgrid.services.VisualGridRunner;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.time.Duration;
 
@@ -25,52 +24,34 @@ public class AcmeBankTests {
     // and then it performs cross-browser testing against multiple unique browsers in Applitools Ultrafast Grid.
     // It runs the test from a main function, not through a test framework.
 
-    // Test control inputs to read once and share for all tests
-    private String applitoolsApiKey;
-    private boolean headless;
-
-    // Applitools objects to share for all tests
-    private BatchInfo batch;
-    private Configuration config;
+    // Test objects
     private VisualGridRunner runner;
-
-    // Test-specific objects
-    private WebDriver driver;
     private Eyes eyes;
+    private WebDriver driver;
 
-    public void setUpConfigAndRunner() {
+    public void setUpBrowserWithEyes() {
         // This method sets up the configuration for running visual tests in the Ultrafast Grid.
-
-        // Read the Applitools API key from an environment variable.
-        // To find your Applitools API key:
-        // https://applitools.com/tutorials/getting-started/setting-up-your-environment.html
-        applitoolsApiKey = System.getenv("APPLITOOLS_API_KEY");
-
-        // Read the headless mode setting from an environment variable.
-        // Use headless mode for Continuous Integration (CI) execution.
-        // Use headed mode for local development.
-        headless = Boolean.parseBoolean(System.getenv().getOrDefault("HEADLESS", "true"));
 
         // Create the runner for the Ultrafast Grid.
         // Concurrency refers to the number of visual checkpoints Applitools will perform in parallel.
         // Warning: If you have a free account, then concurrency will be limited to 1.
         runner = new VisualGridRunner(new RunnerOptions().testConcurrency(5));
 
-        // Create a new batch for tests.
-        // A batch is the collection of visual checkpoints for a test suite.
-        // Batches are displayed in the dashboard, so use meaningful names.
-        batch = new BatchInfo("Example: Selenium Java Basic with the Ultrafast Grid");
+        // Create the Applitools Eyes object connected to the VisualGridRunner and set its configuration.
+        eyes = new Eyes(runner);
 
         // Create a configuration for Applitools Eyes.
-        config = new Configuration();
+        Configuration config = eyes.getConfiguration();
 
         // Set the Applitools API key so test results are uploaded to your account.
         // If you don't explicitly set the API key with this call,
         // then the SDK will automatically read the `APPLITOOLS_API_KEY` environment variable to fetch it.
-        config.setApiKey(applitoolsApiKey);
+        config.setApiKey(System.getenv("APPLITOOLS_API_KEY"));
 
-        // Set the batch for the config.
-        config.setBatch(batch);
+        // Create a new batch for tests.
+        // A batch is the collection of visual tests.
+        // Batches are displayed in the dashboard, so use meaningful names.
+        config.setBatch(new BatchInfo("Example: Selenium Java Basic with the Ultrafast Grid"));
 
         // Add 3 desktop browsers with different viewports for cross-browser testing in the Ultrafast Grid.
         // Other browsers are also available, like Edge and IE.
@@ -82,15 +63,14 @@ public class AcmeBankTests {
         // Other mobile devices are available, including iOS.
         config.addDeviceEmulation(DeviceName.Pixel_2, ScreenOrientation.PORTRAIT);
         config.addDeviceEmulation(DeviceName.Nexus_10, ScreenOrientation.LANDSCAPE);
-    }
 
-    public void openBrowserAndEyes() {
-        // This method sets up each test with its own ChromeDriver and Applitools Eyes objects.
+        // Set the configuration for Eyes
+        eyes.setConfiguration(config);
 
         // Open the browser with the ChromeDriver instance.
         // Even though this test will run visual checkpoints on different browsers in the Ultrafast Grid,
         // it still needs to run the test one time locally to capture snapshots.
-        driver = new ChromeDriver(new ChromeOptions().setHeadless(headless));
+        driver = new ChromeDriver();
 
         // Set an implicit wait of 10 seconds.
         // For larger projects, use explicit waits for better control.
@@ -100,18 +80,6 @@ public class AcmeBankTests {
 
         // If you are using Selenium 3, use the following call instead:
         // driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-
-        // Create the Applitools Eyes object connected to the VisualGridRunner and set its configuration.
-        eyes = new Eyes(runner);
-        eyes.setConfiguration(config);
-
-        // Open Eyes to start visual testing.
-        // It is a recommended practice to set all four inputs:
-        eyes.open(
-                driver,                                         // WebDriver object to "watch"
-                "ACME Bank Web App",                            // The name of the app under test
-                "Log into bank account",                        // The name of the test case
-                new RectangleSize(1024, 768));     // The viewport size for the local browser
     }
 
     public void logIntoBankAccount() {
@@ -120,6 +88,14 @@ public class AcmeBankTests {
         // but the verifications use one-line snapshot calls with Applitools Eyes.
         // If the page ever changes, then Applitools will detect the changes and highlight them in the dashboard.
         // Traditional assertions that scrape the page for text values are not needed here.
+
+        // Open Eyes to start visual testing.
+        // It is a recommended practice to set all four inputs:
+        eyes.open(
+                driver,                                         // WebDriver object to "watch"
+                "ACME Bank Web App",                            // The name of the app under test
+                "Log into bank account",                        // The name of the test case
+                new RectangleSize(1200, 600));     // The viewport size for the local browser
 
         // Load the login page.
         driver.get("https://demo.applitools.com");
@@ -135,22 +111,19 @@ public class AcmeBankTests {
         // Verify the full main page loaded correctly.
         // This snapshot uses LAYOUT match level to avoid differences in closing time text.
         eyes.check(Target.window().fully().withName("Main page").layout());
-    }
-
-    public void cleanUpTest() {
-
-        // Quit the WebDriver instance.
-        driver.quit();
 
         // Close Eyes to tell the server it should display the results.
         eyes.closeAsync();
+    }
 
-        // Warning: `eyes.closeAsync()` will NOT wait for visual checkpoints to complete.
-        // You will need to check the Applitools dashboard for visual results per checkpoint.
-        // If you want to wait synchronously for all checkpoints to complete, then use `eyes.close()`.
+    public void cleanUpTests() {
+
+        // Quit the WebDriver instance.
+        driver.quit();
     }
 
     public void abortTests() {
+
         // Abort tests if things go wrong.
         eyes.abortAsync();
     }
@@ -170,26 +143,25 @@ public class AcmeBankTests {
 
         try {
             // Safely perform setup.
-            tests.setUpConfigAndRunner();
-            tests.openBrowserAndEyes();
+            tests.setUpBrowserWithEyes();
 
             // Run the test steps.
             tests.logIntoBankAccount();
         }
         catch (Exception e) {
-            // Dump any errors.
+            // Dump any errors and abort any tests.
             e.printStackTrace();
+            tests.abortTests();
         }
 
         try {
             // No matter what, perform cleanup.
-            tests.cleanUpTest();
+            tests.cleanUpTests();
             tests.printResults();
         }
         catch (Exception e) {
-            // Dump any errors and abort any remaining tests.
+            // Dump any cleanup errors.
             e.printStackTrace();
-            tests.abortTests();
         }
         finally {
             // Always force execution to end.
