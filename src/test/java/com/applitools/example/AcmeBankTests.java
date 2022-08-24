@@ -165,32 +165,34 @@ public class AcmeBankTests {
 
     public static void main(String [] args) {
 
-        // Construct the test object
+        // Construct the test object.
         AcmeBankTests tests = new AcmeBankTests();
 
         try {
-            // Safely perform setup
+            // Safely perform setup.
             tests.setUpConfigAndRunner();
             tests.openBrowserAndEyes();
 
-            // Run the test steps
+            // Run the test steps.
             tests.logIntoBankAccount();
         }
         catch (Exception e) {
+            // Dump any errors.
             e.printStackTrace();
         }
 
         try {
-            // No matter what, perform cleanup
+            // No matter what, perform cleanup.
             tests.cleanUpTest();
             tests.printResults();
         }
         catch (Exception e) {
+            // Dump any errors and abort any remaining tests.
             e.printStackTrace();
             tests.abortTests();
         }
         finally {
-            // Always force execution to end
+            // Always force execution to end.
             System.exit(0);
         }
     }
