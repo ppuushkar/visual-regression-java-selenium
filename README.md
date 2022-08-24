@@ -31,7 +31,7 @@ to your [account's API key](https://applitools.com/tutorials/getting-started/set
 and then run:
 
 ```
-mvn exec:java -Dexec.mainClass="com.applitools.example.AcmeBankTests" -Dexec.classpathScope=test
+mvn exec:exec@run-the-tests -Dexec.classpathScope=test
 ```
 
 **For full instructions on running this project, take our

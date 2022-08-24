@@ -178,6 +178,7 @@ public class AcmeBankTests {
             // No matter what, perform cleanup
             tests.cleanUpTest();
             tests.printResults();
+            System.exit(0);
         }
     }
 }
