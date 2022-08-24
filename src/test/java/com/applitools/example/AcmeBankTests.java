@@ -150,6 +150,11 @@ public class AcmeBankTests {
         // If you want to wait synchronously for all checkpoints to complete, then use `eyes.close()`.
     }
 
+    public void abortTests() {
+        // Abort tests if things go wrong.
+        eyes.abortAsync();
+    }
+
     public void printResults() {
 
         // Close the batch and report visual differences to the console.
@@ -174,10 +179,18 @@ public class AcmeBankTests {
         catch (Exception e) {
             e.printStackTrace();
         }
-        finally {
+
+        try {
             // No matter what, perform cleanup
             tests.cleanUpTest();
             tests.printResults();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            tests.abortTests();
+        }
+        finally {
+            // Always force execution to end
             System.exit(0);
         }
     }
