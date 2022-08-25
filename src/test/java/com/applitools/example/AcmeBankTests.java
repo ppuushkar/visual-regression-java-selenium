@@ -34,6 +34,8 @@ public class AcmeBankTests {
         WebDriver driver = null;
 
         try {
+            // The following steps set up Applitools for testing.
+
             // Create the runner for the Ultrafast Grid.
             // Concurrency refers to the number of visual checkpoints Applitools will perform in parallel.
             // Warning: If you have a free account, then concurrency will be limited to 1.
@@ -83,7 +85,8 @@ public class AcmeBankTests {
             // If you are using Selenium 3, use the following call instead:
             // driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-            // The steps below are a test covering login for the Applitools demo site, which is a dummy banking app.
+
+            // The following steps are a test covering login for the Applitools demo site, which is a dummy banking app.
             // The interactions use typical Selenium WebDriver calls,
             // but the verifications use one-line snapshot calls with Applitools Eyes.
             // If the page ever changes, then Applitools will detect the changes and highlight them in the dashboard.
@@ -138,9 +141,8 @@ public class AcmeBankTests {
             // Dump any cleanup errors.
             e.printStackTrace();
         }
-        finally {
-            // Always force execution to end.
-            System.exit(0);
-        }
+
+        // Always force execution to end.
+        System.exit(0);
     }
 }
