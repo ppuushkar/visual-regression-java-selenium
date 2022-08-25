@@ -24,6 +24,9 @@ public class AcmeBankTests {
     // and then it performs cross-browser testing against multiple unique browsers in Applitools Ultrafast Grid.
     // It runs the test from a main function, not through a test framework.
 
+    // Test constants
+    private final static BatchInfo BATCH = new BatchInfo("Example: Selenium Java Basic with the Ultrafast Grid");
+
     // Test objects
     private VisualGridRunner runner;
     private Eyes eyes;
@@ -51,7 +54,7 @@ public class AcmeBankTests {
         // Create a new batch for tests.
         // A batch is the collection of visual tests.
         // Batches are displayed in the dashboard, so use meaningful names.
-        config.setBatch(new BatchInfo("Example: Selenium Java Basic with the Ultrafast Grid"));
+        config.setBatch(BATCH);
 
         // Add 3 desktop browsers with different viewports for cross-browser testing in the Ultrafast Grid.
         // Other browsers are also available, like Edge and IE.
