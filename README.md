@@ -1,6 +1,6 @@
 # Applitools Example: Selenium Java Basic with the Ultrafast Grid
 
-This is the example project for the [Selenium Java Basic tutorial](https://applitools.com/tutorials/selenium-java.html).
+This is the example project for the [Selenium Java Basic tutorial](https://applitools.com/tutorials/quickstart/web/selenium/java/basic).
 It shows how to start automating visual tests
 with [Applitools Eyes](https://applitools.com/platform/eyes/)
 and the [Ultrafast Grid](https://applitools.com/platform/ultrafast-grid/)
@@ -36,4 +36,4 @@ mvn exec:exec@run-the-tests -Dexec.classpathScope=test
 ```
 
 **For full instructions on running this project, take our
-[Selenium Java Basic tutorial](https://applitools.com/tutorials/selenium-java.html)!**
+[Selenium Java Basic tutorial](https://applitools.com/tutorials/quickstart/web/selenium/java/basic)!**
