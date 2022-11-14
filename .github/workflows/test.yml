@@ -28,4 +28,3 @@ jobs:
         run: mvn exec:exec@run-the-tests -Dexec.classpathScope=test
         env:
           APPLITOOLS_API_KEY: ${{ secrets.APPLITOOLS_API_KEY }}
-          HEADLESS: true
