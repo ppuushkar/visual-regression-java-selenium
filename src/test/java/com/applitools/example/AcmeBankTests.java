@@ -60,7 +60,7 @@ public class AcmeBankTests {
 
             // Create a new batch for tests.
             // A batch is the collection of visual tests.
-            // Batches are displayed in the dashboard, so use meaningful names.
+            // Batches are displayed in the Eyes Test Manager, so use meaningful names.
             config.setBatch(BATCH);
 
             // Add 3 desktop browsers with different viewports for cross-browser testing in the Ultrafast Grid.
@@ -95,7 +95,7 @@ public class AcmeBankTests {
             // The following steps are a test covering login for the Applitools demo site, which is a dummy banking app.
             // The interactions use typical Selenium WebDriver calls,
             // but the verifications use one-line snapshot calls with Applitools Eyes.
-            // If the page ever changes, then Applitools will detect the changes and highlight them in the dashboard.
+            // If the page ever changes, then Applitools will detect the changes and highlight them in the Eyes Test Manager.
             // Traditional assertions that scrape the page for text values are not needed here.
 
             // Open Eyes to start visual testing.
