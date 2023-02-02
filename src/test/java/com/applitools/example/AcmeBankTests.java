@@ -101,10 +101,24 @@ public class AcmeBankTests {
             // Open Eyes to start visual testing.
             // It is a recommended practice to set all four inputs:
             eyes.open(
-                    driver,                                         // WebDriver object to "watch"
-                    "ACME Bank Web App",                            // The name of the app under test
-                    "Log into bank account",                        // The name of the test case
-                    new RectangleSize(1200, 600));     // The viewport size for the local browser
+                
+                // WebDriver object to "watch".
+                driver,
+                
+                // The name of the application under test.
+                // All tests for the same app should share the same app name.
+                // Set this name wisely: Applitools features rely on a shared app name across tests.
+                "ACME Bank Web App",
+                
+                // The name of the test case for the given application.
+                // Additional unique characteristics of the test may also be specified as part of the test name,
+                // such as localization information ("Home Page - EN") or different user permissions ("Login by admin"). 
+                "Log into bank account",
+                
+                // The viewport size for the local browser.
+                // Eyes will resize the web browser to match the requested viewport size.
+                // This parameter is optional but encouraged in order to produce consistent results.
+                new RectangleSize(1200, 600));
 
             // Load the login page.
             driver.get("https://demo.applitools.com");
