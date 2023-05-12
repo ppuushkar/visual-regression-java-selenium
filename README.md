@@ -16,6 +16,7 @@ It uses:
 It can also run tests with:
 
 * [Applitools Ultrafast Grid](https://applitools.com/platform/ultrafast-grid/) for cross-browser execution
+* [Applitools Execution Cloud](https://applitools.com/platform/execution-cloud/) for self-healing remote WebDriver sessions
 
 To run this example project, you'll need:
 
@@ -27,7 +28,7 @@ To run this example project, you'll need:
 6. A corresponding version of [ChromeDriver](https://chromedriver.chromium.org/downloads).
 
 The main test case is [`AcmeBankTests.java`](src/test/java/com/applitools/example/AcmeBankTests.java).
-By default, the project will run tests with Ultrafast Grid.
+By default, the project will run tests with Ultrafast Grid but not Execution Cloud.
 You can change these settings in the test class.
 
 To execute tests, set the `APPLITOOLS_API_KEY` environment variable
