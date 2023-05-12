@@ -1,9 +1,11 @@
 package com.applitools.example;
 
 import com.applitools.eyes.BatchInfo;
+import com.applitools.eyes.EyesRunner;
 import com.applitools.eyes.RectangleSize;
 import com.applitools.eyes.TestResultsSummary;
 import com.applitools.eyes.selenium.BrowserType;
+import com.applitools.eyes.selenium.ClassicRunner;
 import com.applitools.eyes.selenium.Configuration;
 import com.applitools.eyes.selenium.Eyes;
 import com.applitools.eyes.selenium.fluent.Target;
@@ -21,28 +23,36 @@ import java.time.Duration;
 
 public class AcmeBankTests {
     // This class contains everything needed to run a full visual test against the ACME bank site.
-    // It runs the test once locally,
-    // and then it performs cross-browser testing against multiple unique browsers in Applitools Ultrafast Grid.
+    // It runs the test once locally.
+    // If you use the Ultrafast Grid, then it performs cross-browser testing against multiple unique browsers.
     // It runs the test from a main function, not through a test framework.
 
     // Test constants
-    private final static BatchInfo BATCH = new BatchInfo("Example: Selenium Java Basic with the Ultrafast Grid");
+    private final static boolean USE_ULTRAFAST_GRID = true;
+    private final static String RUNNER_NAME = (USE_ULTRAFAST_GRID) ? "Ultrafast Grid" : "Classic runner";
+    private final static BatchInfo BATCH = new BatchInfo("Example: Selenium Java Basic with the " + RUNNER_NAME);
 
     public static void main(String [] args) {
 
-        VisualGridRunner runner = null;
+        EyesRunner runner = null;
         Eyes eyes = null;
         WebDriver driver = null;
 
         try {
             // The following steps set up Applitools for testing.
 
-            // Create the runner for the Ultrafast Grid.
-            // Concurrency refers to the number of visual checkpoints Applitools will perform in parallel.
-            // Warning: If you have a free account, then concurrency will be limited to 1.
-            runner = new VisualGridRunner(new RunnerOptions().testConcurrency(5));
+            if (USE_ULTRAFAST_GRID) {
+                // Create the runner for the Ultrafast Grid.
+                // Concurrency refers to the number of visual checkpoints Applitools will perform in parallel.
+                // Warning: If you have a free account, then concurrency will be limited to 1.
+                runner = new VisualGridRunner(new RunnerOptions().testConcurrency(5));
+            }
+            else {
+                // Create the Classic runner.
+                runner = new ClassicRunner();
+            }
 
-            // Create the Applitools Eyes object connected to the VisualGridRunner and set its configuration.
+            // Create the Applitools Eyes object connected to the runner and set its configuration.
             eyes = new Eyes(runner);
 
             // Create a configuration for Applitools Eyes.
@@ -63,23 +73,25 @@ public class AcmeBankTests {
             // Batches are displayed in the Eyes Test Manager, so use meaningful names.
             config.setBatch(BATCH);
 
-            // Add 3 desktop browsers with different viewports for cross-browser testing in the Ultrafast Grid.
-            // Other browsers are also available, like Edge and IE.
-            config.addBrowser(800, 600, BrowserType.CHROME);
-            config.addBrowser(1600, 1200, BrowserType.FIREFOX);
-            config.addBrowser(1024, 768, BrowserType.SAFARI);
+            // If running tests on the Ultrafast Grid, configure browsers.
+            if (USE_ULTRAFAST_GRID) {
 
-            // Add 2 mobile emulation devices with different orientations for cross-browser testing in the Ultrafast Grid.
-            // Other mobile devices are available, including iOS.
-            config.addDeviceEmulation(DeviceName.Pixel_2, ScreenOrientation.PORTRAIT);
-            config.addDeviceEmulation(DeviceName.Nexus_10, ScreenOrientation.LANDSCAPE);
+                // Add 3 desktop browsers with different viewports for cross-browser testing in the Ultrafast Grid.
+                // Other browsers are also available, like Edge and IE.
+                config.addBrowser(800, 600, BrowserType.CHROME);
+                config.addBrowser(1600, 1200, BrowserType.FIREFOX);
+                config.addBrowser(1024, 768, BrowserType.SAFARI);
+
+                // Add 2 mobile emulation devices with different orientations for cross-browser testing in the Ultrafast Grid.
+                // Other mobile devices are available, including iOS.
+                config.addDeviceEmulation(DeviceName.Pixel_2, ScreenOrientation.PORTRAIT);
+                config.addDeviceEmulation(DeviceName.Nexus_10, ScreenOrientation.LANDSCAPE);
+            }
 
             // Set the configuration for Eyes
             eyes.setConfiguration(config);
 
             // Open the browser with the ChromeDriver instance.
-            // Even though this test will run visual checkpoints on different browsers in the Ultrafast Grid,
-            // it still needs to run the test one time locally to capture snapshots.
             driver = new ChromeDriver(new ChromeOptions().setHeadless(headless));
 
             // Set an implicit wait of 10 seconds.

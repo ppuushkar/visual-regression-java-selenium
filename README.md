@@ -1,10 +1,9 @@
-# Applitools Example: Selenium Java Basic with the Ultrafast Grid
+# Applitools Example: Selenium WebDriver with Java
 
 This is the example project for the [Selenium Java Basic tutorial](https://applitools.com/tutorials/quickstart/web/selenium/java/basic).
 It shows how to start automating visual tests
 with [Applitools Eyes](https://applitools.com/platform/eyes/)
-and the [Ultrafast Grid](https://applitools.com/platform/ultrafast-grid/)
-using [Selenium WebDriver](https://www.selenium.dev/) in Java.
+and [Selenium WebDriver](https://www.selenium.dev/) in Java.
 
 It uses:
 
@@ -13,6 +12,9 @@ It uses:
 * [Google Chrome](https://www.google.com/chrome/downloads/) as the local browser for testing
 * [Apache Maven](https://maven.apache.org/index.html) for dependency management
 * [Applitools Eyes](https://applitools.com/platform/eyes/) for visual testing
+
+It can also run tests with:
+
 * [Applitools Ultrafast Grid](https://applitools.com/platform/ultrafast-grid/) for cross-browser execution
 
 To run this example project, you'll need:
@@ -25,6 +27,8 @@ To run this example project, you'll need:
 6. A corresponding version of [ChromeDriver](https://chromedriver.chromium.org/downloads).
 
 The main test case is [`AcmeBankTests.java`](src/test/java/com/applitools/example/AcmeBankTests.java).
+By default, the project will run tests with Ultrafast Grid.
+You can change these settings in the test class.
 
 To execute tests, set the `APPLITOOLS_API_KEY` environment variable
 to your [account's API key](https://applitools.com/tutorials/guides/getting-started/registering-an-account).
