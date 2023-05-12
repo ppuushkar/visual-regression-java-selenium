@@ -17,7 +17,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
+import java.net.URL;
 import java.time.Duration;
 
 
@@ -29,6 +31,7 @@ public class AcmeBankTests {
 
     // Test constants
     private final static boolean USE_ULTRAFAST_GRID = true;
+    private final static boolean USE_EXECUTION_CLOUD = false;
     private final static String RUNNER_NAME = (USE_ULTRAFAST_GRID) ? "Ultrafast Grid" : "Classic runner";
     private final static BatchInfo BATCH = new BatchInfo("Example: Selenium Java Basic with the " + RUNNER_NAME);
 
@@ -91,8 +94,17 @@ public class AcmeBankTests {
             // Set the configuration for Eyes
             eyes.setConfiguration(config);
 
-            // Open the browser with the ChromeDriver instance.
-            driver = new ChromeDriver(new ChromeOptions().setHeadless(headless));
+            // Create ChromeDriver options
+            ChromeOptions options = new ChromeOptions().setHeadless(headless);
+
+            if (USE_EXECUTION_CLOUD) {
+                // Open the browser remotely in the Execution Cloud.
+                driver = new RemoteWebDriver(new URL(Eyes.getExecutionCloudURL()), options);
+            }
+            else {
+                // Open the browser with a local ChromeDriver instance.
+                driver = new ChromeDriver(options);
+            }
 
             // Set an implicit wait of 10 seconds.
             // For larger projects, use explicit waits for better control.
