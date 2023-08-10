@@ -17,6 +17,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.URL;
@@ -64,7 +65,7 @@ public class AcmeBankTests {
             // Set the Applitools API key so test results are uploaded to your account.
             // If you don't explicitly set the API key with this call,
             // then the SDK will automatically read the `APPLITOOLS_API_KEY` environment variable to fetch it.
-            config.setApiKey(System.getenv("APPLITOOLS_API_KEY"));
+            config.setApiKey(System.getenv("a8zuLxhOWkIovfdAvIC1mvsTjn9tGwtJPe79j63DTpo110"));
 
             // Read the headless mode setting from an environment variable.
             // Use headless mode for Continuous Integration (CI) execution.
@@ -103,7 +104,8 @@ public class AcmeBankTests {
             }
             else {
                 // Open the browser with a local ChromeDriver instance.
-                driver = new ChromeDriver(options);
+                //driver = new ChromeDriver(options);
+                driver =new FirefoxDriver();
             }
 
             // Set an implicit wait of 10 seconds.
@@ -137,15 +139,17 @@ public class AcmeBankTests {
                 // The name of the test case for the given application.
                 // Additional unique characteristics of the test may also be specified as part of the test name,
                 // such as localization information ("Home Page - EN") or different user permissions ("Login by admin"). 
-                "Log into bank account",
+                "Log into bank account"
                 
                 // The viewport size for the local browser.
                 // Eyes will resize the web browser to match the requested viewport size.
                 // This parameter is optional but encouraged in order to produce consistent results.
-                new RectangleSize(1200, 600));
 
+                //new RectangleSize(1200, 600));
+            );
             // Load the login page.
-            driver.get("https://demo.applitools.com");
+            driver.get("https://demo.applitools.com\"");
+
 
             // Verify the full login page loaded correctly.
             eyes.check(Target.window().fully().withName("Login page"));
